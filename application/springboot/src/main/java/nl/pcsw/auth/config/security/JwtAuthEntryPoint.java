@@ -1,0 +1,26 @@
+package nl.pcsw.auth.config.security;
+
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * This class is responsible for displaying an error when a user is not authorized.
+ * It makes use of the AuthenticationEntryPoint interface from the Spring Framework.
+ */
+@Component
+public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
+
+    @Override
+    public void commence(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException authException
+    ) throws IOException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+    }
+}

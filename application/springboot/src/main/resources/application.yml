@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  # Set the configurations for the H2 database
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+  # H2 Console to be consulted
+  h2:
+    console:
+      enabled: true
+  # Hardcoded default password to log in with Spring Security.
+  security:
+    user:
+      password: Test12345_
+    # With this property we can set our own filtering above the default filtering of Spring Security.
+    # The filtering checks each request if the user is already authenticated or not.
+    filter:
+      order: 10
+
+jwt:
+  secret: hashing123
+  expiration:
+    #In MS -> 1m
+    time: 60000
+    #In MS -> 10m
+    # time: 600000
