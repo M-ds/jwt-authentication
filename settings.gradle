@@ -4,4 +4,5 @@ include(
         ":application:core",
         ":application:infra-jdbc",
         ":application:springboot",
+        ":application:common"
 )

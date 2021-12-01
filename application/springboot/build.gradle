@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(project(":application:core"))
+    implementation(project(":application:common"))
     implementation(project(":application:infra-jdbc"))
 
     implementation("io.jsonwebtoken:jjwt:0.9.1")

@@ -27,7 +27,7 @@ public class JwtTokenProperties {
                 .setClaims(new HashMap<>())
                 .setSubject(person.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtTokenExpirationTime * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtTokenExpirationTime * 1000L))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
