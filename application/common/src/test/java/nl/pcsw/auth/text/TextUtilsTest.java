@@ -16,4 +16,24 @@ public class TextUtilsTest {
     public void stringDoesNotContainText() {
         assertFalse(TextUtils.hasText("                  "));
     }
+
+    @Test
+    public void stringIsNull() {
+        assertTrue(TextUtils.isNullOrBlank(null));
+    }
+
+    @Test
+    public void stringIsEmpty() {
+        assertTrue(TextUtils.isNullOrBlank(""));
+    }
+
+    @Test
+    public void stringIsBlank() {
+        assertTrue(TextUtils.isNullOrBlank("   "));
+    }
+
+    @Test
+    public void stringIsNotEmpty() {
+        assertFalse(TextUtils.isNullOrBlank("Niet leeg!"));
+    }
 }
