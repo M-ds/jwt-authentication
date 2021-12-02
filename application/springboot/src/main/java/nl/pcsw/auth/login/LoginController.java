@@ -33,7 +33,32 @@ public class LoginController {
         }
 
         final var request = new LoginUseCase.Request(username, password);
-        var response = loginUseCase.login(request);
+
+        try {
+            var response = loginUseCase.login(request);
+            return new JsonReplyModel<>(
+                    true,
+                    null,
+                    new LoginResponse(
+                            response.loginPerson().token(),
+                            response.loginPerson().username(),
+                            response.loginPerson().roles(),
+                            response.loginPerson().refreshToken()
+                    )
+            );
+        } catch (Exception ex) {
+            String errorMessage;
+            if (ex.getMessage().contains("Bad credentials")) {
+                errorMessage = "Invalid password, please try again.";
+            } else {
+                errorMessage = ex.getMessage();
+            }
+            return new JsonReplyModel<>(
+                    false,
+                    new JsonError(errorMessage),
+                    null
+            );
+        }
 
     }
 
