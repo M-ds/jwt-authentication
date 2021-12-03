@@ -18,7 +18,7 @@ public class PersonDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return person
-                .roles()
+                .getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());
@@ -26,31 +26,31 @@ public class PersonDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return person.password();
+        return person.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return person.username();
+        return person.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return person.active();
+        return person.isActive();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return person.active();
+        return person.isActive();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return person.active();
+        return person.isActive();
     }
 
     @Override
     public boolean isEnabled() {
-        return person.active();
+        return person.isActive();
     }
 }

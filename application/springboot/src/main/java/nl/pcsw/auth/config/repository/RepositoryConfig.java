@@ -12,16 +12,19 @@ import javax.sql.DataSource;
 @Configuration
 public class RepositoryConfig {
 
-    @Value("${spring.datasource.url}")
-    private String url;
-    @Value("${spring.datasource.username}")
-    private String username;
-    @Value("${spring.datasource.password}")
-    private String password;
-
+    private final String url;
+    private final String username;
+    private final String password;
     private final DataSource dataSource;
 
-    public RepositoryConfig() {
+    public RepositoryConfig(
+            @Value("${spring.datasource.url}") String url,
+            @Value("${spring.datasource.username}") String username,
+            @Value("${spring.datasource.password}") String password
+    ) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
         this.dataSource = createDataSource();
     }
 

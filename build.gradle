@@ -6,14 +6,16 @@ plugins {
 	id ("java")
 }
 
+group = "nl.pcsw"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = "17"
+
 allprojects {
+	sourceCompatibility = "17"
+
 	repositories {
 		mavenCentral()
 	}
-
-	group = "nl.pcsw"
-	version = "0.0.1-SNAPSHOT"
-	sourceCompatibility = "17"
 }
 
 subprojects {
@@ -30,3 +32,5 @@ subprojects {
 		useJUnitPlatform()
 	}
 }
+
+//TODO: https://docs.gradle.org/current/samples/sample_building_java_applications_multi_project.html

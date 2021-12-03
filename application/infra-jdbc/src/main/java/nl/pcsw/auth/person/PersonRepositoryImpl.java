@@ -6,10 +6,13 @@ import nl.pcsw.auth.security.domain.Role;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonRepositoryImpl implements PersonRepository {
 
@@ -22,13 +25,15 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public Person loadUserByUsername(String username) {
         String query = """
-                SELECT id, username, password, role
-                FROM person
-                WHERE username = ?;
-                """;
+                SELECT p.username, p.password, p.active, r.name
+                FROM person p
+                         JOIN person_role pr ON p.id = pr.person_id
+                         JOIN role r ON r.id = pr.role_id
+                WHERE p.username = ?;
+                    """;
 
         try {
-            return jdbcTemplate.query(
+            return jdbcTemplate.queryForObject(
                     query,
                     PERSON_DETAIL_ROW_MAPPER(),
                     username
@@ -38,19 +43,20 @@ public class PersonRepositoryImpl implements PersonRepository {
         }
     }
 
-    private ResultSetExtractor<Person> PERSON_DETAIL_ROW_MAPPER() {
-        return new ResultSetExtractor<>() {
-            Person.Builder personBuilder = null;
+    private RowMapper<Person> PERSON_DETAIL_ROW_MAPPER() {
+        return new RowMapper<>() {
+
+            final Person.Builder personBuilder = new Person.Builder();
 
             @Override
-            public Person extractData(ResultSet rs) throws SQLException, DataAccessException {
+            public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
                 do {
-                    personBuilder.addRole(Role.valueOf(rs.getString("name")));
-                    if (personBuilder == null) {
+                    if (personBuilder.builderIsNotUses()) {
                         personBuilder.setUsername(rs.getString("username"));
                         personBuilder.setPassword(rs.getString("password"));
                         personBuilder.isActive(rs.getBoolean("active"));
                     }
+                    personBuilder.addRole(Role.valueOf(rs.getString("name")));
                 } while (rs.next());
 
                 return personBuilder.build();

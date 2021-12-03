@@ -1,20 +1,46 @@
 package nl.pcsw.auth.security.domain;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public record Person(UUID id, String username, String password, boolean active, List<Role> roles) {
+public class Person {
+
+    private final String username;
+    private final String password;
+    private final boolean active;
+    private final List<Role> roles;
+
+    public Person(String username, String password, boolean active, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.roles = roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
 
     public static class Builder {
-        private UUID id;
         private String username;
         private String password;
         private boolean active;
-        private List<Role> roles;
+        private final List<Role> roles = new ArrayList<>();
 
-        public Builder setId(UUID id) {
-            this.id = id;
-            return this;
+        public boolean builderIsNotUses() {
+            return username == null || username.trim().isEmpty();
         }
 
         public Builder setUsername(String username) {
@@ -27,23 +53,16 @@ public record Person(UUID id, String username, String password, boolean active, 
             return this;
         }
 
-        public Builder isActive(boolean active) {
+        public void isActive(boolean active) {
             this.active = active;
-            return this;
         }
 
-        public Builder addRole(Role role) {
+        public void addRole(Role role) {
             this.roles.add(role);
-            return this;
         }
 
         public Person build() {
-            assert id != null;
-            assert username != null;
-            assert password != null;
-            assert roles != null;
-
-            return new Person(id, username, password, active, roles);
+            return new Person(username, password, active, roles);
         }
     }
 }

@@ -1,5 +1,6 @@
 package nl.pcsw.auth.login;
 
+import ch.qos.logback.core.boolex.EvaluationException;
 import nl.pcsw.auth.common.reply.JsonError;
 import nl.pcsw.auth.common.reply.JsonReplyModel;
 import nl.pcsw.auth.login.request.LoginRequest;

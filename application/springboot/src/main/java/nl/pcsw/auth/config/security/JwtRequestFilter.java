@@ -2,6 +2,7 @@ package nl.pcsw.auth.config.security;
 
 import nl.pcsw.auth.security.service.MyPersonDetailsService;
 import nl.pcsw.auth.text.TextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -20,7 +21,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenProperties jwtTokenProperties;
     private final MyPersonDetailsService myPersonDetailsService;
 
-    public JwtRequestFilter(JwtTokenProperties jwtTokenProperties, MyPersonDetailsService myPersonDetailsService) {
+    public JwtRequestFilter(
+            JwtTokenProperties jwtTokenProperties,
+            MyPersonDetailsService myPersonDetailsService
+    ) {
         this.jwtTokenProperties = jwtTokenProperties;
         this.myPersonDetailsService = myPersonDetailsService;
     }
